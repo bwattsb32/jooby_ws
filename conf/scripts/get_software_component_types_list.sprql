@@ -1,0 +1,20 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+CONSTRUCT {
+ ?ListItem 
+ #?name ?ListItemLabel;
+           sys:componentValue ?SystemName;
+           sys:componentName ?ListItemLabel.
+  }
+WHERE
+{
+  ?List a sys:SoftwareTypeList.
+  ?List skos:prefLabel ?ListLabel .
+  ?List sys:hasListItem ?ListItem .
+
+  ?ListItem skos:prefLabel ?ListItemLabel . 
+  ?ListItem sys:systemName ?SystemName. 
+#  BIND (URI(?SystemName) as ?name).
+}

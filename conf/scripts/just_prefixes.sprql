@@ -1,0 +1,5 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix tag: <http://www.dts-inc.com/asset#>
+

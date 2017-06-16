@@ -1,0 +1,42 @@
+{
+   "cpe": "http://cpe.mitre.org/dictionary/2.0/",
+   "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+   "org": "http://www.w3.org/ns/org#",
+   "owl": "http://www.w3.org/2002/07/owl#",
+   "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+   "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+   "skos": "http://www.w3.org/2004/02/skos/core#",
+   "sys": "http://www.dts-inc.com/systemspec#",
+   "tag": "http://www.dts-inc.com/asset#",
+   "ver": "http://www.dts-inc.com/versioned#",
+   "xsd": "http://www.w3.org/2001/XMLSchema#",
+   "doc": "http://www.dts-inc.com/document#",
+   "sys:requries": {
+     "@id": "http://www.dts-inc.com/systemspec#requires",
+     "@type": "@id"
+   },
+   "sys:hasSystemProfile": {
+     "@type": "@id"
+   },
+   "sys:hasNode": {
+     "@type": "@id"
+   },
+   "sys:hasNetwork": {
+     "@type": "@id"
+   },
+   "sys:hasTemplateNode": {
+     "@type": "@id"
+   },
+   "sys:virtual": {
+     "@type": "xsd:boolean"
+   },
+   "ver:timeStampVersion": {
+     "@type":"xsd:dateTime"
+   },
+
+   "id": "@id",
+   "type": "@type",
+   "data": "@graph",
+   "tag:memory": "http://www.dts-inc.com/asset#memory",
+   "version": "ver:versionId"
+ }

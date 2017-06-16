@@ -1,0 +1,13 @@
+node ':sys:provisioningHost' {
+	$vm_path = ":sys:vmDeletePath:sys:hostName"
+	$vm_fqdn  = ":sys:fqdn"
+	$puppet_server = ":sys:scpServiceAcct@:sys:puppetMasterHost"
+
+
+	exec {'purge_vm':
+      		command => "ssh -i /root/scp_cert $puppet_server sudo puppet node purge $vm_fqdn",
+      		path => '/usr/bin',
+    }
+	
+}
+		

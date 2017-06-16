@@ -1,0 +1,100 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix doc: <http://www.dts-inc.com/document#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+
+construct { 
+
+   ?s skos:prefLabel ?prefLabel;
+      skos:altLabel ?altLabel;
+      rdf:type ?type;
+      sys:deleteProtect ?deleteProtect;
+      sys:description ?description;
+      sys:deviceType ?deviceType;
+      sys:fqdn ?fqdn;
+      sys:isOrphaned ?isOrphaned;
+      sys:isPoweredOn ?isPoweredOn;
+      sys:majorInvType ?majorInvType; 
+      sys:minorInvType ?minorInvType;
+      sys:minorMinorInvType ?minorMinorInvType;
+      sys:status ?status;
+      tag:ipAddress ?ipAddress;
+      tag:cpus ?cpus;
+      tag:manufacturer ?manufacturer;
+      tag:memory ?memory;
+      tag:modelName ?modelName.
+#      doc:fileSize ?fileSize;
+#      doc:fileType ?fileType;
+#      doc:fileName ?fileName;
+#      doc:fileDescription ?fileDescription.
+      
+}
+
+where {
+	  
+   ?s skos:prefLabel ?prefLabel;
+      rdf:type ?type;
+      optional {?s sys:deleteProtect ?deleteProtect;}
+      optional {?s sys:description ?description;}
+      optional {?s sys:deviceType ?deviceType;}
+      optional {?s sys:fqdn ?fqdn;}
+      optional {?s sys:hasDataTemplate ?hasDataTemplate;} BIND (STR(?hasDataTemplate) as ?hasDataTemplateStr).
+      optional {?s sys:isOrphaned ?isOrphaned;}
+      optional {?s sys:isPoweredOn ?isPoweredOn;}
+      optional {?s sys:status ?status;}
+      optional {?s tag:ipAddress ?ipAddress;} 
+      optional {?s tag:cpus ?cpus;}
+      optional {?s tag:manufacturer ?manufacturer;}
+      optional {?s tag:memory ?memory;}
+      optional {?s tag:modelName ?modelName;}
+#      optional {?s doc:fileSize ?fileSize;}
+#      optional {?s doc:fileType ?fileType;}
+#      optional {?s doc:fileName ?fileName;}
+#      optional {?s doc:fileDescription ?fileDescription;}
+      optional {?s skos:altLabel ?altLabel;}
+      optional {?s ver:isVersionOf ?isVersionOf;}
+BIND ( 
+  if((?hasDataTemplate = <http://z2c.dts-inc.com/id/d73a29a2-9b06-471e-95e5-01351647a0c4>),"HW-PS", 
+    if((?hasDataTemplate = <http://z2c.dts-inc.com/id/187538c9-0593-4b7f-bcce-d9028c8d95b6>),"HW-UP",
+      if((?hasDataTemplate = <http://z2c.dts-inc.com/id/ff8e302e-ce7f-4360-b37a-c7c6b9e3a127>),"HW-NT",
+        if((?hasDataTemplate = <http://z2c.dts-inc.com/id/209f7737-6298-4679-910b-fcbc03d9f904>),"SW-OS-PA", 
+          if((?hasDataTemplate = <http://z2c.dts-inc.com/id/866d1a68-5738-4fd8-8f62-bc6a5efd2c92>),"SW-SC-PA",
+            if((?hasDataTemplate = <http://z2c.dts-inc.com/id/8d966aa0-2225-4e5d-b0c1-6f144e7a7f8e>),"SW-DS-PA",
+              if((?hasDataTemplate = <http://z2c.dts-inc.com/id/cd0c4c49-ffa0-4744-a2c6-e4cc71f961f4>),"SW-SP-PA",
+        if((?hasDataTemplate = <http://z2c.dts-inc.com/id/d8914052-2840-4453-8218-ec7e3753e630>),"SW-OS-CH", 
+          if((?hasDataTemplate = <http://z2c.dts-inc.com/id/515e7495-2a55-4cf9-a685-781ac76a4815>),"SW-SC-CH",
+            if((?hasDataTemplate = <http://z2c.dts-inc.com/id/e983aaff-ce9a-45c8-b4e6-84e4b275d4ca>),"SW-DS-CH",
+              if((?hasDataTemplate = <http://z2c.dts-inc.com/id/2c0e0234-894e-457c-ac68-614bf01ea20f>),"SW-SP-CH",
+              "OT-OT")))))))))))
+        as ?t1). 
+#Special situation for virtual node:        
+BIND (if (BOUND(?t1),?t1,"VN") as ?majorMinorInvType).
+#add links for software
+  BIND (SUBSTR(?majorMinorInvType, 1, 2) as ?majorInvType).
+  BIND (if (?majorInvType != "VN",SUBSTR(?majorMinorInvType, 4, 2),"") as ?minorInvType).
+  BIND (if((?majorInvType = "SW"),SUBSTR(?majorMinorInvType, 7, 2),"") as ?minorMinorInvType). 
+      
+#other types not being filtered:  
+#        ?type = sys:TemplateNode || 
+#        ?type = doc:document || 
+#        ?type = sys:Network || 
+#        ?type = sys:Environment ||
+#        || ?type = doc:File
+#FILTER (?type = sys:Device || (?type = sys:Component && bound(?isVersionOf)))
+#MINUS {?s rdf:type sys:VirtualNode.} - for virtual nodes only
+#filter (?filter)
+#        ?type = sys:VirtualNode || 
+#        ?type = sys:PhysicalNode || 
+#        ?type = sys:OperatingSystem || 
+#        ?type = sys:SoftwarePackage || 
+#        ?type = sys:ScriptPackage ||
+#        ?type = sys:NetworkDevice ||
+#        ?type = sys:StorageAppliance ||
+#        ?type = sys:UPS 
+#)
+#replacestring
+#where replacestring is a filter like FILTER (?type = sys:Device || (?type = sys:Component && bound(?isVersionOf)))
+}

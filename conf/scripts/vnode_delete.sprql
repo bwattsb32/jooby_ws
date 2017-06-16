@@ -1,0 +1,67 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix cpe: <http://cpe.mitre.org/dictionary/2.0/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+construct {
+   # vmId is replaced
+   <?id> sys:fqdn ?fqdn;
+         sys:hostName ?hostName;
+         sys:deleteProtect ?dp;
+         sys:vmDeletePath ?vmDeletePath;
+         sys:vcenterUrl ?vcUrl;
+		 sys:vcenterDefaultResourcePool ?resourcepool;
+		 sys:vcenterDataCenterName ?datacentername;
+		 sys:vcenterDefaultTemplatePath ?templatepath;
+		 sys:vcenterUser ?vcuser;
+		 sys:vcenterPassword ?vcpassword;
+         sys:provisioningHost ?provisioningHost;
+         sys:puppetMasterHost ?puppetMasterHost;
+         sys:scpServiceAcct ?serviceAcct.
+} 
+where {
+  {
+    # vmId is replaced
+    <?id> sys:fqdn ?fqdn;
+             sys:hostName ?hostName;
+             sys:deleteProtect ?dp;
+             sys:isNodeOf ?network.
+    
+    ?network sys:isNetworkOf ?env2.
+    
+    ?env2 sys:isEnvironmentOf ?org.
+    
+    ?org sys:provisioningHost ?provisioningHost.
+    optional {?org sys:puppetMasterHost ?puppetMasterHost .}
+    
+    ?org <http://www.dts-inc.com/systemspec#hasEnvironment> ?env.
+    
+    ?env <http://www.dts-inc.com/systemspec#environmentRole> "admin";
+        <http://www.dts-inc.com/systemspec#hasNetwork> ?network2.
+     optional {?env sys:puppetMasterHost ?puppetMasterHost .}
+ 
+#  No longer need the following for delete... 
+#   ?network2 <http://www.dts-inc.com/systemspec#hasVirtualNode> ?vnode.
+    
+    ?vnode rdf:type <http://www.dts-inc.com/systemspec#PuppetMaster>;
+           sys:scpServiceAcct ?serviceAcct.
+      
+ } union 
+  { # Combine triples from to areas of a graph
+    # Global
+    :zero2cloud sys:vmDeletePath ?vmDeletePath;
+    			sys:vcenterUrl ?vcUrl;
+				sys:vcenterDefaultResourcePool ?resourcepool;
+				sys:vcenterDataCenterName ?datacentername;
+				sys:vcenterDefaultTemplatePath ?templatepath;
+				sys:vcenterUser ?vcuser;
+				sys:vcenterPassword ?vcpassword.
+   }
+}

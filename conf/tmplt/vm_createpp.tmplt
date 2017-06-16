@@ -1,0 +1,26 @@
+node ':sys:provisioningHost' {
+        $vm_path = ":sys:vmPath:sys:vmHostName"
+        $vm_source = ":sys:vmPath:sys:vmTemplateName"
+        $vm_user = ":sys:defaultTemplateUser"
+        $vm_pw = ":sys:defaultTemplatePassword"
+        $vm_cpu = ":tag:cpus"
+        $vm_mem = ":tag:memory"
+        $vm_client = ":sys:vmHostName"
+        $eth_name = ":sys:adminVirtualNic"
+        $rhn_user = ":sys:rhnUser"
+        $rhn_pw = ":sys:rhnPassword"        
+        $puppet_host = ":sys:puppetMasterHost"
+        vsphere_vm { "${vm_path}":
+                ensure          => running,
+                memory          => $vm_mem,
+                cpus            => $vm_cpu,
+                source          => "${vm_source}",
+                create_command  => {
+                        command                 => '/bin/sed',
+                        arguments               => "-i '/HOSTNAME/c\\HOSTNAME=${vm_client}' /etc/sysconfig/network && /bin/sed -i '/DHCP_HOSTNAME/c\\DHCP_HOSTNAME=${vm_client}' /etc/sysconfig/network && /bin/hostname ${vm_client} && /bin/sed -i '/BOOTPROTO/c\\BOOTPROTO=dhcp' /etc/sysconfig/network-scripts/${eth_name} && /sbin/service network restart && /usr/bin/subscription-manager register --username ${rhn_user} --password ${rhn_pw} --auto-attach && /usr/bin/curl -k https://${puppet_host}:8140/packages/current/install.bash --connect-timeout 120 --max-time 600 | /bin/bash >/tmp/agent.install.log 2>&1",
+                        working_directory       => '/',
+                        user                    => "${vm_user}",
+                        password                => "${vm_pw}",
+                        }
+        }
+}

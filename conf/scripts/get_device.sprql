@@ -1,0 +1,27 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix doc: <http://www.dts-inc.com/document#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+construct {  ?s ?p ?o;
+sys:hasDataTemplate ?hasDataTemplateStr;
+sys:majorInvType ?majorInvType; 
+sys:minorInvType ?minorInvType.}
+where { ?s ?p ?o.
+?s sys:hasDataTemplate ?hasDataTemplate.
+BIND (STR(?hasDataTemplate) as ?hasDataTemplateStr).
+#HW-PS: <http://z2c.dts-inc.com/id/d73a29a2-9b06-471e-95e5-01351647a0c4>
+#HW-NT: <http://z2c.dts-inc.com/id/ff8e302e-ce7f-4360-b37a-c7c6b9e3a127>
+#HW-UP: <http://z2c.dts-inc.com/id/187538c9-0593-4b7f-bcce-d9028c8d95b6>
+BIND ( 
+  if((?hasDataTemplate = <http://z2c.dts-inc.com/id/d73a29a2-9b06-471e-95e5-01351647a0c4>),"HW-PS", 
+    if((?hasDataTemplate = <http://z2c.dts-inc.com/id/187538c9-0593-4b7f-bcce-d9028c8d95b6>),"HW-UP",
+      if((?hasDataTemplate = <http://z2c.dts-inc.com/id/ff8e302e-ce7f-4360-b37a-c7c6b9e3a127>),"HW-NT","OT-OT")))
+        as ?majorMinorInvType). 
+  BIND (STRBEFORE(?majorMinorInvType, "-") as ?majorInvType).
+  BIND (STRAFTER (?majorMinorInvType, "-") as ?minorInvType).
+BIND (STR(?o) as ?o).
+
+}

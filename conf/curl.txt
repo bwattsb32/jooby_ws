@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -X POST -d '{"environmentId":"http://z2c.dts-inc.com/id/78b16a73-9d86-44c6-bcc0-b4bec90628d0","networkId":"http://z2c.dts-inc.com/id/188692ba-1f4e-4cc5-8dfa-a8041033d79e","templateId":"http://z2c.dts-inc.com/id/768a3749-44e8-4c4e-8e6f-30e7ac0eaa89/2016-10-21T00:00:00.000Z"}' http://localhost:9090/api/deployRx

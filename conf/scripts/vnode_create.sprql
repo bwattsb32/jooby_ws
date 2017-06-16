@@ -1,0 +1,71 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix cpe: <http://cpe.mitre.org/dictionary/2.0/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+construct {
+   <%templateUri>  tag:cpus ?cpus;
+                  tag:memory ?memory;
+                  sys:vmTemplateName ?vmTemplate;
+    		      sys:adminVirtualNic ?nic;
+    			  sys:vmPath ?vmPath;
+    			  sys:defaultTemplateUser ?tuser;
+    			  sys:defaultTemplatePassword ?tpassword;
+    			  sys:provisioningHost ?oprovisioningHost;
+    			  sys:puppetMasterHost ?opuppetMasterHost;
+    			  sys:rhnUser ?ruser;
+    			  sys:rhnPassword ?rpassword;
+    			  sys:vcenterUrl ?vcUrl;
+				  sys:vcenterDefaultResourcePool ?resourcepool;
+				  sys:vcenterDataCenterName ?datacentername;
+				  sys:vcenterDefaultTemplatePath ?templatepath;
+				  sys:vcenterUser ?vcuser;
+				  sys:vcenterPassword ?vcpassword;
+    			  sys:hasEnvironmnet <%environmentUri>;
+    			  sys:hasTemplateNode <%templateUri>;
+    			  sys:hasNetwork <%networkUri>; 
+    			  sys:domainSfx ?domainSfx; 
+    			  sys:environmentRole ?envRole.
+} 
+where {
+  {
+  #TemplateVersion
+  <%templateUri> tag:cpus ?cpus;
+                tag:memory ?memory;
+                sys:requires/sys:requires ?os.
+  # OS component
+  ?os a sys:OperatingSystem;
+        sys:vmTemplateName ?vmTemplate;
+        sys:adminVirtualNic ?nic.
+  #EnvironmentId
+  <%environmentUri>  sys:isEnvironmentOf ?organization; sys:environmentRole ?envRole.
+  optional {<%environmentUri> sys:puppetMasterHost ?opuppetMasterHost.}
+  
+  # Organization
+  ?organization sys:provisioningHost ?oprovisioningHost.
+  optional {?organization sys:puppetMasterHost ?opuppetMasterHost.}
+
+ } union 
+  { # Combine triples from to areas of a graph
+    # Global
+    :zero2cloud sys:vmPath ?vmPath;
+ 	            sys:defaultTemplateUser ?tuser;
+	            sys:defaultTemplatePassword ?tpassword;
+	            sys:rhnUser ?ruser;
+	            sys:rhnPassword ?rpassword;
+	            sys:vcenterUrl ?vcUrl;
+				sys:vcenterDefaultResourcePool ?resourcepool;
+				sys:vcenterDataCenterName ?datacentername;
+				sys:vcenterDefaultTemplatePath ?templatepath;
+				sys:vcenterUser ?vcuser;
+				sys:domainSfx ?domainSfx; 
+				sys:vcenterPassword ?vcpassword.
+   }
+}

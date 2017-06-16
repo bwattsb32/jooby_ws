@@ -1,0 +1,30 @@
+@prefix : <http://z2c.dts-inc.com/id/>. 
+@prefix cpe: <http://cpe.mitre.org/dictionary/2.0/>. 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>. 
+@prefix owl: <http://www.w3.org/2002/07/owl#>. 
+@prefix sys: <http://www.dts-inc.com/systemspec#>. 
+@prefix ver: <http://www.dts-inc.com/versioned#>. 
+@prefix tag: <http://www.dts-inc.com/asset#>. 
+@prefix org: <http://www.w3.org/ns/org#>. 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>. 
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>. 
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>. 
+
+:%sys:uuId a sys:VirtualNode;
+   a sys:Node;
+   a sys:Device;
+   skos:prefLabel '%sys:vmHostName.%sys:domainSfx';
+   skos:altLabel '%sys:vmHostName';
+   sys:hostName '%sys:vmHostName';
+   sys:fqdn '%sys:vmHostName.%sys:domainSfx';
+   sys:hasTemplateNode <%sys:hasTemplateNode>;
+   sys:isNodeOf <%sys:hasNetwork>;
+   sys:deleteProtect "false";
+   sys:isOrphaned "false";
+   sys:isPoweredOn "true";
+   sys:deviceType "Virtual Node";
+   rdf:type sys:Node;
+   rdf:type sys:VirtualNode;
+   sys:status '%sys:status'.
+<%sys:hasNetwork> sys:hasVirtualNode :%sys:uuId.
+

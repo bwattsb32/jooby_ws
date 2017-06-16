@@ -1,0 +1,17 @@
+prefix doc: <http://www.dts-inc.com/document#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+
+construct { 
+  ?doc skos:prefLabel ?TemplateName;
+       ver:timeStampVersion ?TemplateDate ;
+       ver:versionId ?Version .
+} WHERE
+{
+  ?doc doc:documentType "Template" .
+  ?doc skos:prefLabel ?TemplateName .
+
+  ?s ver:isVersionOf ?doc .
+  ?s ver:timeStampVersion ?TemplateDate .
+  ?s ver:versionId ?Version .
+}

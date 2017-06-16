@@ -1,0 +1,17 @@
+# List of Hardware Devices
+prefix : <http://z2c.dts-inc.com/id/>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+construct {  
+  ?HardwareDeviceItemNode skos:prefLabel ?prefLabel.
+  }
+WHERE
+{
+  ?HardwareDeviceListNode a sys:HardwareDeviceList.
+  ?HardwareDeviceListNode sys:hasListItem ?HardwareDeviceItemNode.
+  ?HardwareDeviceListNode skos:prefLabel ?ListLabel.
+  ?HardwareDeviceItemNode skos:prefLabel ?prefLabel.
+ 
+}
+

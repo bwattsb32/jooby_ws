@@ -1,0 +1,12 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix tag: <http://www.dts-inc.com/asset#>
+
+construct { 
+  ?component skos:prefLabel ?label.
+} where {
+  ?component skos:prefLabel ?label;
+     rdf:type ?type.
+}

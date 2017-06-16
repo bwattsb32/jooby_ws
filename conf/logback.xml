@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="15 seconds" debug="false">
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%d{ISO8601}]-[%thread] %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/tmp/z2c_ws.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>z2c_ws.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>5</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>[%d{ISO8601}]-[%thread] %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender> 
+  
+  <logger name="com.dts_inc.z2c" level="debug" />
+  
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>

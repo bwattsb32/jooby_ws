@@ -1,0 +1,28 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix doc: <http://www.dts-inc.com/document#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+
+construct {?A1URI sys:typeOfDevice ?A2  ;
+  sys:fullName ?A3 ;
+  sys:typeCLP ?A4 ;
+  sys:queryId ?A5;
+  sys:name ?A1 . }
+where {
+#  ?List a sys:HardwareDeviceList.
+#replacesysdevtyp
+  ?List sys:hasListItem ?ListItem .
+
+  ?ListItem skos:prefLabel ?A2 . BIND(URI(?A2) as ?A2URI).
+  ?ListItem sys:hasListItem ?Field .
+  
+  ?Field skos:prefLabel ?A3 . 
+  ?Field sys:systemType ?A4 .
+  ?Field sys:systemName ?A1 . BIND(URI(?A1) as ?A1URI).
+  OPTIONAL{?Field sys:queryId ?A5 .}
+#add filter for specific layout below + }  
+ 
+

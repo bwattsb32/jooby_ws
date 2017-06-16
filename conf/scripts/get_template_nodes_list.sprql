@@ -1,0 +1,16 @@
+prefix : <http://z2c.dts-inc.com/id/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix sys: <http://www.dts-inc.com/systemspec#>
+prefix org: <http://www.w3.org/ns/org#>
+prefix tag: <http://www.dts-inc.com/asset#>
+prefix doc: <http://www.dts-inc.com/document#>
+prefix ver: <http://www.dts-inc.com/versioned#>
+
+construct { 
+?stemplate skos:prefLabel ?name .
+}
+where {
+      ?stemplate rdf:type sys:TemplateNode .
+      ?stemplate sys:requires ?requiredList .
+      ?stemplate skos:prefLabel ?name .
+}

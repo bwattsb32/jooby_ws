@@ -1,0 +1,20 @@
+node ':sys:provisioningHost' {
+	$vm_path = ":sys:vmDeletePath:sys:hostName"
+	$vm_fqdn  = ":sys:fqdn"
+	$puppet_server = ":sys:scpServiceAcct@:sys:puppetMasterHost"
+
+    exec {'rm_rhn':
+      		command => "ssh -i /root/scp_cert :sys:scpServiceAcct@$vm_fqdn sudo subscription-manager unregister",
+      		path => '/usr/bin',
+    }
+	vsphere_vm { "${vm_path}":
+		ensure => absent,
+		require => Exec['rm_rhn'],
+	}
+	exec {'purge_vm':
+      		command => "ssh -i /root/scp_cert $puppet_server sudo puppet node purge $vm_fqdn",
+      		path => '/usr/bin',
+    }
+	
+}
+		

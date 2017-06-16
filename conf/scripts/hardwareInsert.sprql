@@ -1,0 +1,19 @@
+# Hardware Node Configuration
+@prefix : <http://z2c.dts-inc.com/id/>. 
+@prefix cpe: <http://cpe.mitre.org/dictionary/2.0/>. 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>. 
+@prefix owl: <http://www.w3.org/2002/07/owl#>. 
+@prefix sys: <http://www.dts-inc.com/systemspec#>. 
+@prefix ver: <http://www.dts-inc.com/versioned#>. 
+@prefix tag: <http://www.dts-inc.com/asset#>. 
+@prefix org: <http://www.w3.org/ns/org#>. 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>. 
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>. 
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>. 
+
+#:?uuid a sys:TemplateNode;
+#	ver:hasHead <http://z2c.dts-inc.com/id/?uuid/?timeStamp>.
+
+<http://z2c.dts-inc.com/id/?uuid>
+#    add triples below
+
